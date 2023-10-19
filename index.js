@@ -26,6 +26,7 @@ async function run() {
     // Connect the client to the server	(optional starting in v4.7)
     await client.connect();
     const wishCollection = client.db("wishDB").collection("wish")
+    const brandCollection = client.db("BrandDB").collection("Brand")
 
     
     app.get('/products',async(req,res)=>{
@@ -74,6 +75,12 @@ app.delete('/products/:id',async(req,res)=>{
   const result = await wishCollection.deleteOne(query)
   res.send(result)
 })
+
+// brand 
+
+
+
+
 
 app.get('/',(req,res)=>{
   res.send('assingment-10')
