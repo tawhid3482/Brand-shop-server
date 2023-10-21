@@ -24,6 +24,7 @@ async function run() {
     // Connect the client to the server	(optional starting in v4.7)
     await client.connect();
     const wishCollection = client.db("wishDB").collection("wish");
+
     const brandCollection = client.db("wishDB").collection("Brand");
 
 
@@ -48,6 +49,11 @@ async function run() {
     });
 
 
+
+
+
+
+
     // brand
 
     app.get("/cart", async (req, res) => {
@@ -58,8 +64,8 @@ async function run() {
 
     app.get("/cart/:id", async (req, res) => {
       const id = req.params.id;
-      const query = { _id: new ObjectId(id) };
-      const result = await brandCollection.findOne(query);
+      const filter = { _id: id };
+      const result = await brandCollection.findOne(filter);
       res.send(result);
     });
 
@@ -72,7 +78,7 @@ async function run() {
 
     app.put("/cart/:id", async (req, res) => {
       const id = req.params.id;
-      const query = { _id: new ObjectId(id) };
+      const query = { _id: id };
       const options = { upsert: true };
       const updateProduct = req.body;
       const updatedProducts = {
@@ -94,9 +100,9 @@ async function run() {
       res.send(result);
     });
 
-    app.delete("/cart/:id", async (req, res) => {
+    app.delete('/cart/:id', async (req, res) => {
       const id = req.params.id;
-      const query = { _id: new ObjectId(id) };
+      const query = { _id: id };
       const result = await brandCollection.deleteOne(query);
       res.send(result);
     });
@@ -105,9 +111,11 @@ async function run() {
     app.get("/", (req, res) => {
       res.send("assingment-10");
     });
+
     app.listen(port, () => {
       console.log(`server:${port}`);
     });
+
     // Send a ping to confirm a successful connection
     await client.db("admin").command({ ping: 1 });
     console.log(
